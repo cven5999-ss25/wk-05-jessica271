@@ -36,12 +36,18 @@ Additional metadata on location and type of bin is available.
 ```{r}
 
 
-
+waste_data <- read_delim(here::here("data/rbtl_fs22_waste_composition_bellevue.csv"), delim = ";")
 ```
 
 ```{r}
 
-
+waste_data |>
+  select(number, starts_with("weight")) |>
+  rename_with(~str_remove(.x, "weight_")) |> 
+  select(-total) |>
+  pivot_longer(cols = !number,
+               names_to = "weight_category",
+               values_to = "weight")
 ```
 
 ## Example: Gapminder
@@ -56,14 +62,18 @@ gapminder_wide <- read_csv("https://raw.githubusercontent.com/swcarpentry/r-novi
 
 ```{r}
 
-
+gapminder_wide
 ```
 
 ### From wide to long
 
 ```{r}
 
-
+gapminder_long <- gapminder_wide |>
+  pivot_longer(cols = gdpPercap_1952:pop_2007,
+               names_to = "obstype_year",
+               values_to = "obs_value") |>
+  separate(col = obstype_year, into = c("obs_type", "year", sep = "_"))
 ```
 
 **Your turn**
@@ -72,14 +82,20 @@ gapminder_wide <- read_csv("https://raw.githubusercontent.com/swcarpentry/r-novi
 2.  Assign the created dataframe to an object with the name `gapminder_long_summary`
 
 ```{r}
-
+gapminder_long_summary <- gapminder_long |> 
+  group_by(continent, obs_type) |> 
+  summarise(means = mean(obs_value)) 
 ```
 
 ### From long to intermediate format
 
 ```{r}
 
-
+gapminder_normal <- gapminder_long |> 
+  pivot_wider(names_from = obs_type,
+              values_from = obs_value) |> 
+  select(country, continent, year, lifeExp, pop, gdpPercap) |> 
+  arrange(country, year)
 ```
 
 # References
