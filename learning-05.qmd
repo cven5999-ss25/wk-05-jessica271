@@ -11,15 +11,53 @@ Learning reflections are part of your weekly homework and have a weight of 20% o
 
 # Lecture
 
-<!--# Add your reflections on the lecture of this week here -->
+A data set can be made longer or shorter using pivot function
+
+pivot_wider( )
+
+pivot_longer( )
+
+separate( ) is used to separate on column into multiple columns.
+
+For example:
+
+separate(percent, into = c(“discount”, “original price”))
 
 # Homework Assignment
 
-<!--# Add your reflections on the homework programming assignment here -->
+Rules of data tidying
+
+Each variable, observation and value should have its own cell.
+
+|           |              |              |
+|-----------|--------------|--------------|
+| Variable  | Observation  | Observation  |
+| Variable  | Value        | Value        |
+| Variable  | Value        | Value        |
+
+This makes it easier for R functions to work with vectors of values
 
 # Readings
 
-<!--# Add your reflections on the required readings here -->
+unite( ) is used to unit columns
+
+ [[unite]{.underline}](https://tidyr.tidyverse.org/reference/unite.html)(new, century, year)
+
+The unite function will combine century and year columns, for example to 1990
+
+Missing values in data appear in two ways:
+
+Explicitly - NA
+
+Implicitly - Data that is simply not present
+
+This can be fixed using the following function:
+
+drop_na( )
+
+complete( )
+
+fill( )
 
 # Submit learning reflections
 
